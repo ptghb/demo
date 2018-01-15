@@ -13,8 +13,8 @@ public class HelloServiceImpl implements HelloService{
     private JdbcTemplate jdbcTemplate;
 	
 	@Override
-	public void create(String name, Integer age) {
-		jdbcTemplate.update("insert into tb_user(name, age) values(?, ?)", name, age);
+	public void create(String name) {
+		jdbcTemplate.update("insert into user(name) values(?)", name);
 	}
 
 }

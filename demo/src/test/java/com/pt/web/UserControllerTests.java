@@ -33,16 +33,14 @@ public class UserControllerTests {
 	@Test
 	public void addUser() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.post("/users/add").param("id", "1") 
-				.param("name", "葛宏斌") 
-				.param("age", "20"))
+				.param("name", "葛宏斌"))
 				.andExpect(status().isOk());
 	}
 	
 	@Test
 	public void updUser() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.post("/users/upd").param("id", "1") 
-				.param("name", "葛宏斌") 
-				.param("age", "27"))
+				.param("name", "葛宏斌"))
 				.andExpect(status().isOk());
 	}
 	
@@ -50,14 +48,14 @@ public class UserControllerTests {
 	public void getUser() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/users/1").accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
-				.andExpect(content().string(equalTo("{\"code\":0,\"message\":null,\"url\":null,\"data\":{\"id\":1,\"name\":\"葛宏斌\",\"age\":27}}")));
+				.andExpect(content().string(equalTo("{\"code\":0,\"message\":null,\"url\":null,\"data\":{\"id\":1,\"name\":\"葛宏斌\"}}")));
 	}
 	
 	@Test
 	public void getUsers() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/users").accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
-				.andExpect(content().string(equalTo("{\"code\":0,\"message\":null,\"url\":null,\"data\":[{\"id\":1,\"name\":\"葛宏斌\",\"age\":27},{\"id\":2,\"name\":\"葛宏斌\",\"age\":27}]}")));
+				.andExpect(content().string(equalTo("{\"code\":0,\"message\":null,\"url\":null,\"data\":[{\"id\":1,\"name\":\"葛宏斌\"},{\"id\":2,\"name\":\"葛宏斌\"}]}")));
 	}
 
 }

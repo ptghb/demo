@@ -1,6 +1,7 @@
 package com.pt.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,6 +11,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @ApiIgnore
 @RestController
+@PreAuthorize("hasRole('USER')")
 public class HelloController {
 	
 	@Autowired
@@ -27,7 +29,7 @@ public class HelloController {
     
     @RequestMapping("/jdbc")
     public String jdbc() throws Exception {
-    	helloSerivce.create("葛宏斌", 27);
+    	helloSerivce.create("葛宏斌");
     	return "Success";
     }
 }

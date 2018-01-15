@@ -12,7 +12,7 @@ public abstract class BasePO {
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false)
+    @Column
     private String name;
     
     public Long getId() {

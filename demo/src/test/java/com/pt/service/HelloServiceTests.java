@@ -21,7 +21,7 @@ public class HelloServiceTests {
 	
 	@Test
 	public void addUser() throws Exception {
-		userSerivce.create("葛宏斌", 17);
+		userSerivce.create("葛宏斌");
 	}
 	
 

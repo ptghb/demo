@@ -3,8 +3,7 @@ package com.pt.vo;
 public class UserEntity {
 
 	private Long id; 
-	private String name; 
-    private Integer age; 
+	private String name;
     
     public Long getId() {
 		return id;
@@ -18,15 +17,9 @@ public class UserEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Integer getAge() {
-		return age;
-	}
-	public void setAge(Integer age) {
-		this.age = age;
-	}
    
     @Override
 	public String toString() {
-		return "UserEntity [id=" + id + ", name=" + name + ", age=" + age + "]";
+		return "UserEntity [id=" + id + ", name=" + name + "]";
 	}
 }

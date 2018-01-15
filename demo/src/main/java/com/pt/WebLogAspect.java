@@ -16,6 +16,11 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.google.gson.Gson;
 
+/**
+ * 接口执行log管理
+ * @author gehb
+ *
+ */
 @Aspect
 @Component
 public class WebLogAspect {

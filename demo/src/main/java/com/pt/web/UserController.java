@@ -24,7 +24,7 @@ public class UserController {
 	private UserService userSerivce;
 	
 	@ApiOperation(value="获取用户列表", notes="")
-    @RequestMapping(value="", method=RequestMethod.GET)
+    @RequestMapping(value="/", method=RequestMethod.GET)
     public ResultInfo<List<UserEntity>> getUsers() {
 		List<UserEntity> userList = userSerivce.query();
 		ResultInfo<List<UserEntity>> result = new ResultInfo<List<UserEntity>>(userList);

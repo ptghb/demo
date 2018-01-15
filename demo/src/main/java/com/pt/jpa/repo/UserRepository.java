@@ -12,8 +12,8 @@ import com.pt.jpa.repo.domain.UserPO;
  */
 public interface UserRepository extends BaseRepository<UserPO,Long>{
 
-	UserPO findByNameAndAge(String name, Integer age);
+	UserPO findByLoginname(String loginname);
 
-    @Query("from UserPO u where u.name=:name")
-    UserPO findUser(@Param("name") String name);
+    @Query("from UserPO u where u.loginname=:loginname")
+    UserPO findUser(@Param("loginname") String loginname);
 }
