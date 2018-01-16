@@ -12,6 +12,11 @@ import com.pt.jpa.repo.domain.UserPO;
  */
 public interface UserRepository extends BaseRepository<UserPO,Long>{
 
+	/**
+	 * 登录注册用
+	 * @param loginname
+	 * @return
+	 */
 	UserPO findByLoginname(String loginname);
 
     @Query("from UserPO u where u.loginname=:loginname")

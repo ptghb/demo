@@ -10,13 +10,13 @@ import java.util.List;
  */
 public interface BaseService<T> {
 	
-	public T save(T t);
+	public T save(T t) throws Exception;
 	
-	public void delete(T user);
+	public void delete(T user) throws Exception;
 	
-	public List<T> query();
+	public List<T> query() throws Exception;
 	
-	public T query(Long id);
+	public T query(Long id) throws Exception;
 
-	public List<T> query(Integer pageNo, Integer pageSize);
+	public List<T> query(Integer pageNo, Integer pageSize) throws Exception;
 }

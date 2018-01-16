@@ -20,7 +20,13 @@ public class UserServiceImpl implements UserService{
 	private UserRepository dao;
 	
 	@Override
-	public UserEntity save(UserEntity userEntity) {
+	public UserEntity save(UserEntity userEntity) throws Exception {
+		
+		UserPO userPO = dao.findByLoginname(userEntity.getLoginname());
+		if(userPO != null&&(userEntity.getId()==null||userEntity.getId()!=userPO.getId())) {
+			throw new Exception("用户名重复");
+		}
+		
 		UserPO user = new UserPO();
 		BeanUtils.copyProperties(userEntity, user);
 		user = dao.save(user);
@@ -30,12 +36,12 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public void delete(UserEntity user) {
+	public void delete(UserEntity user) throws Exception{
 		dao.delete(user.getId());
 	}
 
 	@Override
-	public List<UserEntity> query() {
+	public List<UserEntity> query() throws Exception{
 		List<UserEntity> userList= new ArrayList<UserEntity>();
 		Iterable<UserPO> users = dao.findAll();
 		if(users==null) {
@@ -50,7 +56,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public UserEntity query(Long id) {
+	public UserEntity query(Long id) throws Exception{
 		UserPO user = dao.findOne(id);
 		UserEntity userEntity = new UserEntity();
 		BeanUtils.copyProperties(user, userEntity);
@@ -58,7 +64,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public List<UserEntity> query(Integer pageNo, Integer pageSize) {
+	public List<UserEntity> query(Integer pageNo, Integer pageSize) throws Exception{
 		List<UserEntity> userList= new ArrayList<UserEntity>();
 		Iterable<UserPO> users = dao.findAll(new PageRequest(pageNo - 1, pageSize, null));
 		if(users==null) {

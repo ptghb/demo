@@ -1,10 +1,9 @@
 package com.pt.vo;
 
-public class UserEntity {
+public class RoleEntity {
 
 	private Long id; 
 	private String name;
-	private String loginname;
     
     public Long getId() {
 		return id;
@@ -18,16 +17,10 @@ public class UserEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getLoginname() {
-		return loginname;
-	}
-	public void setLoginname(String loginname) {
-		this.loginname = loginname;
-	}
 
 	@Override
 	public String toString() {
-		return "UserEntity [id=" + id + ", name=" + name + ", loginname=" + loginname + "]";
+		return "UserEntity [id=" + id + ", name=" + name + "]";
 	}
 
 }
