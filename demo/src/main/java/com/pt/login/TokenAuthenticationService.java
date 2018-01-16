@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 
 import com.google.gson.Gson;
+import com.pt.utils.PropertiesUtil;
 import com.pt.vo.ResultInfo;
 
 import io.jsonwebtoken.Claims;
@@ -22,14 +24,20 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 class TokenAuthenticationService {
 
-	static final long EXPIRATIONTIME = 432_000_000; // 5天
-	static final String SECRET = "Ptghb@yyf02d"; // JWT密码
+	static final long EXPIRATIONTIME = 432_000_000; // 5天,Java7开始在数字中使用下划线
+	static final String SECRET = "123456"; // JWT密码
 	static final String TOKEN_PREFIX = "Bearer"; // Token前缀
-	static final String HEADER_STRING = "Authorization";// 存放Token的Header Key
+	static final String HEADER_STRING = "x-auth-token";// 存放Token的Header Key
 
 	// JWT生成方法
-	static void addAuthentication(HttpServletResponse response, Authentication auth) {
-
+	static void addAuthentication(HttpServletRequest request,HttpServletResponse response, Authentication auth) throws IOException {
+		
+		// 从properties文件读取JWT设置
+		Properties properties = PropertiesUtil.read(request.getSession().getServletContext().getRealPath("\\WEB-INF\\classes\\security.properties"));
+		long expirationtime = Long.valueOf(properties.getProperty("EXPIRATIONTIME", "432000000"));
+		String secret = properties.getProperty("SECRET", "123456");
+		
+		// 将权限拼成字符串
 		Collection<GrantedAuthority> auths = (Collection<GrantedAuthority>)auth.getAuthorities();
 		String authsStr = "";
 		if(auths!=null&&!auths.isEmpty()){
@@ -49,9 +57,9 @@ class TokenAuthenticationService {
 				// 用户名写入标题
 				.setSubject(auth.getName())
 				// 有效期设置
-				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
+				.setExpiration(new Date(System.currentTimeMillis() + expirationtime))
 				// 签名设置
-				.signWith(SignatureAlgorithm.HS512, SECRET).compact();
+				.signWith(SignatureAlgorithm.HS512, secret).compact();
 
 		// 将 JWT 写入 body
 		try {
@@ -67,17 +75,24 @@ class TokenAuthenticationService {
 	}
 
 	// JWT验证方法
-	static Authentication getAuthentication(HttpServletRequest request,HttpServletResponse response) {
+	static Authentication getAuthentication(HttpServletRequest request,HttpServletResponse response) throws IOException {
+		
+		// 从properties文件读取JWT设置
+		Properties properties = PropertiesUtil.read(request.getSession().getServletContext().getRealPath("\\WEB-INF\\classes\\security.properties"));
+		String secret = properties.getProperty("SECRET", "123456");
+		String header = properties.getProperty("HEADER_STRING", "x-auth-token");
+		String token_prefix = properties.getProperty("TOKEN_PREFIX", "Bearer");
+				
 		// 从Header中拿到token
-		String token = request.getHeader(HEADER_STRING);
+		String token = request.getHeader(header);
 
 		if (token != null) {
 			// 解析 Token
 			Claims claims = Jwts.parser()
 					// 验签
-					.setSigningKey(SECRET)
+					.setSigningKey(secret)
 					// 去掉 Bearer
-					.parseClaimsJws(token.replace(TOKEN_PREFIX, "")).getBody();
+					.parseClaimsJws(token.replace(token_prefix, "")).getBody();
 
 			// 拿用户名
 			String user = claims.getSubject();

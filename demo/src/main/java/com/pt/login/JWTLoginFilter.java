@@ -48,7 +48,7 @@ class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
             HttpServletResponse res, FilterChain chain,
             Authentication auth) throws IOException, ServletException {
 
-        TokenAuthenticationService.addAuthentication(res, auth);
+        TokenAuthenticationService.addAuthentication(req, res, auth);
     }
 
 
@@ -58,7 +58,7 @@ class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_OK);
         ResultInfo<String> result = new ResultInfo<String>();
-        result.setCode(500);
+        result.setCode(ResultInfo.ERROR);
         result.setMessage("Internal Server Error!!!"+failed.getMessage());
         
         response.getOutputStream().println(new Gson().toJson(result));
