@@ -1,6 +1,6 @@
 package com.pt.login;
 
-class AccountCredentials {
+public class AccountCredentials {
 
     private String username;
     private String password;
